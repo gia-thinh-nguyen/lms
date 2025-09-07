@@ -1,13 +1,10 @@
-import {checkTeacher} from '@/utils/checkTeacher'
-import { redirect } from 'next/navigation';
-import { auth } from '@clerk/nextjs/server'
+import { redirect } from "next/navigation";
+import { checkTeacher } from "@/utils/checkTeacher";
+import TeacherDashboard from "./TeacherDashboard";
 
-export default async function page() {
+export default async function Page() {
   const isTeacher = await checkTeacher();
-  if (!isTeacher) {
-    redirect('/');
-  }
-  return (
-    <div>teacher page</div>
-  )
+  if (!isTeacher) redirect("/");
+
+  return <TeacherDashboard />;
 }
