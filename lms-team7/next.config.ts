@@ -1,7 +1,12 @@
-import type { NextConfig } from "next";
+// next.config.ts
+import type { NextConfig } from 'next';
+import path from 'path';
 
-const nextConfig: NextConfig = {
-  /* config options here */
+const config: NextConfig = {
+  turbopack: {
+    // Force the workspace root to THIS folder
+    root: path.resolve(__dirname),
+  },
 };
 
-export default nextConfig;
+export default config;
