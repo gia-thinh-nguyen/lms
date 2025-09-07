@@ -1,30 +1,25 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/utils/connectDB';
-import Lesson from '@/models/lesson';
+import Lesson from '@/models/lessons';
 import User from '@/models/user';
 
-export async function POST(request) {
+export async function GET(request) {
   try {
     await connectDB();
-    const { unitCode, title, description, objectives, readingList, estHoursPerWeek, prereqs, designerEmail, credit } = await request.json();
+    const { searchParams } = new URL(request.url);
+    const scope = searchParams.get('scope');        // 'mine' | 'all'
+    const designerEmail = searchParams.get('email');
 
-    const teacher = await User.findOne({ email: designerEmail, role: 'teacher' });
-    if (!teacher) return NextResponse.json({ message: 'Designer not found or not a teacher' }, { status: 400 });
+    const q = {};
+    if (scope === 'mine' && designerEmail) {
+      const designer = await User.findOne({ email: designerEmail, role: 'teacher' });
+      if (!designer) return NextResponse.json({ lessons: [] });
+      q.designerId = designer._id;
+    }
 
-    const lesson = await Lesson.create({
-      unitCode, title,
-      description: description || '',
-      objectives: objectives || [],
-      readingList: readingList || [],
-      estHoursPerWeek: estHoursPerWeek || 6,
-      prereqs: prereqs || [],
-      designerId: teacher._id,
-      status: 'active',
-      credit: credit ?? 6,
-    });
-
-    return NextResponse.json({ lesson }, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ message: 'Internal server error', error: String(error) }, { status: 500 });
+    const lessons = await Lesson.find(q).lean();
+    return NextResponse.json({ lessons });
+  } catch (e) {
+    return NextResponse.json({ message: 'Internal server error', error: String(e) }, { status: 500 });
   }
 }
