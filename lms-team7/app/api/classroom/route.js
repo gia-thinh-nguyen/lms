@@ -3,7 +3,8 @@ import { connectDB } from '@/utils/connectDB';
 import Classroom from '@/models/classroom';
 import User from '@/models/user';
 import Course from '@/models/course';
-import Lesson from '@/models/lesson';
+import Lesson from '@/models/lessons';
+
 
 export async function POST(request) {
   try {
