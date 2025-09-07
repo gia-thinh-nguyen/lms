@@ -12,3 +12,17 @@ export async function POST(request) {
     return NextResponse.json({ message: 'Internal server error', error: String(error) }, { status: 500 });
   }
 }
+
+export async function GET(request) {
+  try {
+    await connectDB();
+    const { searchParams } = new URL(request.url);
+    const role = searchParams.get('role'); // 'student' | 'teacher'
+    const q = role ? { role } : {};
+    const users = await User.find(q).select('firstName lastName email role status').lean();
+    return NextResponse.json({ users });
+  } catch (e) {
+    return NextResponse.json({ message: 'Internal server error', error: String(e) }, { status: 500 });
+  }
+}
+
