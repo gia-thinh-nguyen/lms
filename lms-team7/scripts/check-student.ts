@@ -5,12 +5,12 @@ dotenv.config({ path: '.env.local' }); // Load env for CLI
 import { Types } from 'mongoose';
 import { connectDB } from '../utils/mongodb.ts';
 
-import Student from '../models/Student.ts';
-import Course from '../models/Course.ts';
-import CourseEnrollment from '../models/CourseEnrollment.ts';
-import Classroom from '../models/Classroom.ts';
-import Lesson from '../models/Lesson.ts';
-import Assignment from '../models/Assignment.ts';
+import Student from '../models/student.model.ts';
+import Course from '../models/course.model.ts';
+import CourseEnrollment from '../models/courseenrollment.model.ts';
+import Classroom from '../models/classroom.model.ts';
+import Lesson from '../models/lesson.model.ts';
+import Assignment from '../models/assignment.model.ts';
 
 // ---------- Lean types (so TS knows shapes after .lean()) ----------
 type CourseLean = {

@@ -5,12 +5,12 @@ export const revalidate = 0;
 import { revalidatePath } from 'next/cache';
 import { connectDB } from '../../utils/mongodb';
 
-import Student from '../../models/Student';
-import Course from '../../models/Course';
-import CourseEnrollment from '../../models/CourseEnrollment';
-import Classroom from '../../models/Classroom';
-import Lesson from '../../models/Lesson';
-import Assignment from '../../models/Assignment';
+import Student from '../../models/student.model';
+import Course from '../../models/course.model';
+import CourseEnrollment from '../../models/courseenrollment.model';
+import Classroom from '../../models/classroom.model';
+import Lesson from '../../models/lesson.model';
+import Assignment from '../../models/assignment.model';
 
 async function getSnapshot() {
   await connectDB();
