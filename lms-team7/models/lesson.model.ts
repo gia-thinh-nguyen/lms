@@ -16,6 +16,7 @@ import { Schema, model, models, Types } from 'mongoose';
  *
  * timestamps            : adds createdAt, updatedAt (use updatedAt as "Date of update")
  */
+
 const ReadingItem = new Schema({
   title: { type: String, required: true, trim: true },
   url:   { type: String, trim: true },
