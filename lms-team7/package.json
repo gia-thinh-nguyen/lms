@@ -2,12 +2,11 @@
   "name": "lms-team7",
   "version": "0.1.0",
   "private": true,
-  "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
-    "start": "next start",
-    "lint": "eslint"
-  },
+"scripts": {
+  "dev": "next dev --no-turbopack",
+  "build": "next build",
+  "start": "next start"
+},
   "dependencies": {
     "@clerk/nextjs": "^6.31.9",
     "daisyui": "^5.1.13",
