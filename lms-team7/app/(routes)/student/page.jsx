@@ -92,13 +92,6 @@ export default function Page() {
         <h1 className="text-2xl font-bold">
           Welcome, {student.name} ({student.year} {student.semester})
         </h1>
-        <div className="flex items-center gap-3">
-          <UserCircle className="w-10 h-10 text-blue-600" />
-          <button className="flex items-center gap-1 px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
-            <LogOut className="w-5 h-5" />
-            Logout
-          </button>
-        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
