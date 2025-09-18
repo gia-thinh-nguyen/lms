@@ -15,12 +15,10 @@ export default function TeacherThemesPage() {
       <select
         className="select select-bordered w-full"
         value={theme}
-        onChange={(e) => setTheme(e.target.value)}
+        onChange={(e) => setTheme(e.target.value as typeof THEMES[number])}
       >
         {THEMES.map((t) => (
-          <option key={t} value={t}>
-            {t[0].toUpperCase() + t.slice(1)}
-          </option>
+          <option key={t} value={t}>{t[0].toUpperCase() + t.slice(1)}</option>
         ))}
       </select>
 

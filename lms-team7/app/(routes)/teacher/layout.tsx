@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { ThemeProvider, useTheme } from "./context/ThemeContext";
 
-export default function TeacherLayout({ children }) {
+export default function TeacherLayout({ children }: { children: React.ReactNode }) {
   return (
     <ThemeProvider>
       <LayoutContent>{children}</LayoutContent>
@@ -16,7 +16,7 @@ export default function TeacherLayout({ children }) {
   );
 }
 
-function LayoutContent({ children }) {
+function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const { cardClass, textClass, buttonClass } = useTheme();
   const [collapsed, setCollapsed] = useState(false);
@@ -28,7 +28,7 @@ function LayoutContent({ children }) {
     { href: "/teacher/reports", label: "Reports", icon: <BarChart3 size={18} /> },
     { href: "/teacher/themes", label: "Themes", icon: <Palette size={18} /> },
     { href: "/teacher/settings", label: "Settings", icon: <Settings size={18} /> },
-  ];
+  ] as const;
 
   return (
     <div className="min-h-screen grid grid-cols-[auto_1fr]">
@@ -48,10 +48,11 @@ function LayoutContent({ children }) {
               <Link
                 key={href}
                 href={href}
-                className={`flex items-center gap-2 p-2 rounded-lg transition
-                  ${active ? `shadow-sm font-semibold ${cardClass}` : `hover:${cardClass}`}`}
+                className={`flex items-center gap-2 p-2 rounded-lg transition ${
+                  active ? `shadow-sm font-semibold ${cardClass} border border-black/10` : `hover:${cardClass}`
+                }`}
               >
-                {icon} {!collapsed && <span className={textClass}>{label}</span>}
+                {icon} <span className={textClass}>{label}</span>
               </Link>
             );
           })}
@@ -60,7 +61,6 @@ function LayoutContent({ children }) {
 
       {/* Main */}
       <main className="p-4">
-        {/* Top bar */}
         <div className={`mb-4 p-3 rounded-lg flex items-center justify-between ${cardClass}`}>
           <h1 className={`text-lg font-semibold ${textClass}`}>Teacher Dashboard</h1>
           <Link href="/teacher/themes" className={`btn btn-sm ${buttonClass}`}>
