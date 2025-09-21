@@ -3,12 +3,13 @@
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { useGetSpecificCourse } from '@/hooks/teacher/useGetSpecificCourse'
+import { useGetUserOffRole } from '@/hooks/useGetUserOffRole'
 
 const CoursePage = () => {
   const params = useParams()
   const courseId = params.courseId
   const { course, loading, error, refetchCourse } = useGetSpecificCourse(courseId)
-
+  const {teachers, students} = useGetUserOffRole();
   if (loading) {
     return (
       <div className="container mx-auto p-6">
