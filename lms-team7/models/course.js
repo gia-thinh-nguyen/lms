@@ -6,10 +6,10 @@ const CourseSchema = new Schema(
     courseId:  { type: String, required: true, trim: true },
     title:      { type: String, required: true, trim: true },
     credits:    { type: Number, required: true, min: 0 }, // total credits required to pass the subject
-    lessonIds:  [{ type: Schema.Types.ObjectId, ref: 'Lesson' }],
+    lessonIds:  { type: [{ type: Schema.Types.ObjectId, ref: 'Lesson' }], default: [] },
     courseDirectorId: { type: Schema.Types.ObjectId, ref: 'User' }, // teacher
     status:     { type: String, enum: ['active','inactive'], default: 'active' },
-    enrolledStudentIds: [{ type: Schema.Types.ObjectId, ref: 'User' }]
+    enrolledStudentIds: { type: [{ type: Schema.Types.ObjectId, ref: 'User' }], default: [] }
   }
 );
 
