@@ -1,51 +1,228 @@
-import OverviewCards   from "../../../components/OverviewCards";
-import LessonForm      from "../../../components/LessonForm";
-import CourseTable     from "../../../components/CourseTable";
-import ClassroomTable  from "../../../components/ClassroomTable";
+"use client";
+import React, { useState } from "react";
+import { Calendar, dateFnsLocalizer } from "react-big-calendar";
+import format from "date-fns/format";
+import parse from "date-fns/parse";
+import startOfWeek from "date-fns/startOfWeek";
+import getDay from "date-fns/getDay";
+import enUS from "date-fns/locale/en-US";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
-export default function Page() {
-  const teacher = { name: "Dr. Taylor", coursesCount: 3, lessonsCount: 8, studentsCount: 54 };
+const locales = {
+  "en-US": enUS,
+};
 
-  const courses = [
-    { id: "CSE1001", title: "Intro to Computing", director: "Dr. Taylor", status: "Active", lessons: 4, enrolledStudents: 22, totalCredits: 24 },
-    { id: "ENG2002", title: "Systems Engineering", director: "Prof. Diaz", status: "Active", lessons: 3, enrolledStudents: 18, totalCredits: 18 },
-    { id: "MAT3003", title: "Applied Mathematics", director: "Dr. Taylor", status: "Inactive", lessons: 1, enrolledStudents: 14, totalCredits: 6 },
-  ];
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+});
 
-  const classroom = [
-    { _id: "1", course: "CSE1001 — Intro to Computing", lesson: "L1 — Variables", student: "Alex Johnson", teacher: "Dr. Taylor", startDate: "2025-08-05", durationWeeks: 12, grade: "HD" },
-    { _id: "2", course: "CSE1001 — Intro to Computing", lesson: "L2 — Loops",     student: "Priya Singh",   teacher: "Dr. Taylor", startDate: "2025-08-05", durationWeeks: 12, grade: "D"  },
-    { _id: "3", course: "ENG2002 — Systems Eng",        lesson: "L1 — Systems",   student: "Sam Wu",        teacher: "Prof. Diaz", startDate: "2025-08-06", durationWeeks: 12, grade: "C"  },
-  ];
+export default function TeacherHomePage() {
+  const courses = 1;
+  const lessons = 3;
+  const students = 42;
+
+  const [events, setEvents] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedSlot, setSelectedSlot] = useState(null);
+  const [eventDesc, setEventDesc] = useState("");
+  const [showEventModal, setShowEventModal] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+  const [editDesc, setEditDesc] = useState("");
+
+  // When a slot is selected, open modal to add event
+  const handleSelectSlot = (slotInfo) => {
+    setSelectedSlot(slotInfo);
+    setEventDesc("");
+    setShowModal(true);
+  };
+
+  // Add event to calendar
+  const handleAddEvent = () => {
+    if (eventDesc.trim() && selectedSlot) {
+      setEvents([
+        ...events,
+        {
+          title: eventDesc,
+          start: selectedSlot.start,
+          end: selectedSlot.end,
+          allDay: false,
+        },
+      ]);
+      setShowModal(false);
+      setSelectedSlot(null);
+      setEventDesc("");
+    }
+  };
+
+  // When an event is clicked, show its details
+  const handleSelectEvent = (event) => {
+    setSelectedEvent(event);
+    setEditDesc(event.title);
+    setShowEventModal(true);
+    setEditMode(false);
+  };
+
+  // Delete event
+  const handleDeleteEvent = () => {
+    setEvents(events.filter(ev => ev !== selectedEvent));
+    setShowEventModal(false);
+    setSelectedEvent(null);
+    setEditMode(false);
+  };
+
+  // Edit event
+  const handleEditEvent = () => {
+    setEditMode(true);
+  };
+
+  // Save edited event
+  const handleSaveEditEvent = () => {
+    setEvents(events.map(ev =>
+      ev === selectedEvent ? { ...ev, title: editDesc } : ev
+    ));
+    setSelectedEvent({ ...selectedEvent, title: editDesc });
+    setEditMode(false);
+  };
 
   return (
-    <div className="min-h-screen p-6 space-y-6 bg-[var(--color-bg)] text-[var(--color-text)]">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Teacher Dashboard</h1>
-        <p className="text-sm text-[var(--color-accent)]">Welcome back, {teacher.name}</p>
-      </div>
-
-      <OverviewCards
-        courses={teacher.coursesCount}
-        lessons={teacher.lessonsCount}
-        students={teacher.studentsCount}
-      />
-
-      <div className="card p-4">
-        <h2 className="text-xl font-semibold mb-3">Courses</h2>
-        <CourseTable rows={courses} />
-      </div>
-
-      <div className="card p-4">
-        <h2 className="text-xl font-semibold mb-3">Create Lesson (UI only)</h2>
-        <LessonForm />
-      </div>
-
-      <div className="card p-4">
-        <h2 className="text-xl font-semibold mb-3">Classroom</h2>
-        <ClassroomTable rows={classroom} />
+    <div className="min-h-screen bg-gray-50 transition-all duration-300"
+         style={{ marginLeft: '4rem' }}
+    >
+      <div className="p-8">
+        <h1 className="text-3xl font-bold text-green-700 mb-8">
+          Welcome, Aadi Kapoor!
+        </h1>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center">
+            <span className="text-2xl font-semibold text-green-700">{courses}</span>
+            <span className="mt-2 text-gray-600">Courses</span>
+          </div>
+          <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center">
+            <span className="text-2xl font-semibold text-green-700">{lessons}</span>
+            <span className="mt-2 text-gray-600">Lessons</span>
+          </div>
+          <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center">
+            <span className="text-2xl font-semibold text-green-700">{students}</span>
+            <span className="mt-2 text-gray-600">Students</span>
+          </div>
+        </div>
+        {/* Weekly Calendar */}
+        <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center max-w-4xl mx-auto">
+          <h2 className="text-xl font-semibold text-green-700 mb-4">Weekly Calendar</h2>
+          <Calendar
+            localizer={localizer}
+            events={events}
+            defaultView="week"
+            views={["week"]}
+            style={{ height: 500, width: "100%" }}
+            selectable
+            onSelectSlot={handleSelectSlot}
+            onSelectEvent={handleSelectEvent}
+            step={60}
+            timeslots={1}
+          />
+        </div>
+        {/* Modal for adding event */}
+        {showModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded shadow-lg w-full max-w-md">
+              <h2 className="text-lg font-bold mb-4">Add Calendar Event</h2>
+              <p className="mb-2">
+                <strong>
+                  {selectedSlot &&
+                    `${format(selectedSlot.start, "eeee, MMM d, h a")} - ${format(selectedSlot.end, "h a")}`}
+                </strong>
+              </p>
+              <input
+                className="border p-2 mb-4 w-full"
+                placeholder="Description of what you want to complete"
+                value={eventDesc}
+                onChange={e => setEventDesc(e.target.value)}
+              />
+              <div className="flex gap-2">
+                <button
+                  className="bg-green-600 text-white px-4 py-2 rounded"
+                  onClick={handleAddEvent}
+                >
+                  Add
+                </button>
+                <button
+                  className="bg-gray-300 px-4 py-2 rounded"
+                  onClick={() => setShowModal(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Modal for viewing/editing/deleting event details */}
+        {showEventModal && selectedEvent && (
+          <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50">
+            <div className="bg-white p-6 rounded shadow-lg w-full max-w-md">
+              <h2 className="text-lg font-bold mb-4">Event Details</h2>
+              <p className="mb-2">
+                <strong>
+                  {format(selectedEvent.start, "eeee, MMM d, h a")} - {format(selectedEvent.end, "h a")}
+                </strong>
+              </p>
+              {editMode ? (
+                <input
+                  className="border p-2 mb-4 w-full"
+                  value={editDesc}
+                  onChange={e => setEditDesc(e.target.value)}
+                />
+              ) : (
+                <p className="mb-4">{selectedEvent.title}</p>
+              )}
+              <div className="flex gap-2">
+                {editMode ? (
+                  <>
+                    <button
+                      className="bg-green-600 text-white px-4 py-2 rounded"
+                      onClick={handleSaveEditEvent}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="bg-gray-300 px-4 py-2 rounded"
+                      onClick={() => setEditMode(false)}
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      className="bg-yellow-500 text-white px-4 py-2 rounded"
+                      onClick={handleEditEvent}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="bg-red-500 text-white px-4 py-2 rounded"
+                      onClick={handleDeleteEvent}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="bg-gray-300 px-4 py-2 rounded"
+                      onClick={() => setShowEventModal(false)}
+                    >
+                      Close
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 }
-
