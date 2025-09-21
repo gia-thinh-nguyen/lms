@@ -93,9 +93,6 @@ const CoursePage = () => {
             <p className="text-gray-600 mb-4">Course ID: {course.courseId}</p>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-2">
-            <button className="btn btn-primary">Edit Course</button>
-          </div>
         </div>
 
         {/* Course Details */}
