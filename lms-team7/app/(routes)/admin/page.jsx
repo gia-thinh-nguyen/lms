@@ -1,7 +1,7 @@
 import { clerkClient } from '@clerk/nextjs/server'
 import { auth } from '@clerk/nextjs/server'
 import UserSections from "../../../components/admin/UserSections";
-import { getUserOffRole } from "../../../utils/getUserOffRole";
+import { useGetUserOffRole } from '@/hooks/useGetUserOffRole';
 // Dummy data
 const dummyCourses = ["Math 101", "History 201", "Science 301", "Art 401"];
 
@@ -14,7 +14,7 @@ export default async function AdminPage() {
   const currentUser = userId ? await client.users.getUser(userId) : null;
   const currentUserFullName = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : "Admin User";
 
-  const { admins, teachers, students } = await getUserOffRole();
+  const { admins, teachers, students } = useGetUserOffRole();
 
   return (
     <div className="flex min-h-screen">
