@@ -74,13 +74,13 @@ const CourseDirector = ({
     const directorInfo = getDirectorDisplayInfo();
 
     return (
-        <div className="bg-base-100 rounded-lg shadow-xl p-6 mb-6">
+        <div className="bg-white rounded-lg shadow-xl p-6 mb-6">
             <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold">Course Director</h2>
+                <h2 className="text-xl font-bold text-gray-900">Course Director</h2>
                 {!isEditing ? (
                     <button 
                         onClick={handleEditClick}
-                        className="btn btn-sm btn-outline btn-primary"
+                        className="border border-blue-600 text-blue-600 hover:bg-blue-50 px-3 py-1.5 rounded-md text-sm font-medium transition-colors"
                     >
                         Change Director
                     </button>
@@ -88,14 +88,14 @@ const CourseDirector = ({
                     <div className="flex gap-2">
                         <button 
                             onClick={handleCancel}
-                            className="btn btn-sm btn-outline"
+                            className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-3 py-1.5 rounded-md text-sm font-medium transition-colors"
                             disabled={loading}
                         >
                             Cancel
                         </button>
                         <button 
                             onClick={handleSave}
-                            className="btn btn-sm btn-primary"
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-md text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             disabled={loading || !selectedDirectorId}
                         >
                             {loading ? 'Saving...' : 'Save'}
@@ -105,39 +105,37 @@ const CourseDirector = ({
             </div>
 
             {error && (
-                <div className="alert alert-error mb-4">
+                <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md mb-4">
                     <span>{error}</span>
                 </div>
             )}
 
             {success && (
-                <div className="alert alert-success mb-4">
+                <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md mb-4">
                     <span>Course director updated successfully!</span>
                 </div>
             )}
 
             {!isEditing ? (
                 <div className="flex items-center gap-4">
-                    <div className="avatar placeholder">
-                        <div className="bg-neutral text-neutral-content rounded-full w-12">
-                            <span className="text-xl">
-                                {directorInfo.name.split(' ').map(n => n[0]).join('') || '?'}
-                            </span>
-                        </div>
+                    <div className="flex items-center justify-center w-12 h-12 bg-blue-600 text-white rounded-full">
+                        <span className="text-xl font-medium">
+                            {directorInfo.name.split(' ').map(n => n[0]).join('') || '?'}
+                        </span>
                     </div>
                     <div>
-                        <h3 className="font-semibold">{directorInfo.name}</h3>
+                        <h3 className="font-semibold text-gray-900">{directorInfo.name}</h3>
                         <p className="text-gray-600">{directorInfo.email}</p>
                     </div>
                 </div>
             ) : (
                 <div className="space-y-4">
-                    <div className="form-control">
-                        <label className="label">
-                            <span className="label-text">Select New Course Director</span>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Select New Course Director
                         </label>
                         <select 
-                            className="select select-bordered w-full"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
                             value={selectedDirectorId}
                             onChange={(e) => setSelectedDirectorId(e.target.value)}
                             disabled={loading}
