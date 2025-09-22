@@ -2,9 +2,7 @@
 import React, { useState, useMemo } from "react";
 import DeleteUserButton from "./DeleteUserButton";
 
-export default function UserSections({ admins, teachers, students }) {
-    // Combine all users into one array
-    const allUsers = [...admins, ...teachers, ...students];
+export default function UserSections({ allUsers }) {
     
     // Search state
     const [searchEmail, setSearchEmail] = useState("");

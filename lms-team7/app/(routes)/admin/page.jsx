@@ -14,7 +14,17 @@ export default async function AdminPage() {
   const currentUser = userId ? await client.users.getUser(userId) : null;
   const currentUserFullName = currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : "Admin User";
 
-  const { admins, teachers, students } = useGetUserOffRole();
+  const rawUsers = (await client.users.getUserList()).data;
+  
+  // Serialize users to plain objects
+  const users = rawUsers.map(user => ({
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      emailAddress: user.emailAddresses.find((email) => email.id === user.primaryEmailAddressId)?.emailAddress,
+      role: user.publicMetadata.role || 'student'
+  }));
+
 
   return (
     <div className="flex min-h-screen">
@@ -26,7 +36,7 @@ export default async function AdminPage() {
             <span className="font-semibold">Welcome, </span>
             <span className="text-blue-700 font-semibold">{currentUserFullName}</span>
           </div>
-          <UserSections admins={admins} teachers={teachers} students={students} />
+          <UserSections allUsers={users} />
         </div>
       </div>
     </div>
