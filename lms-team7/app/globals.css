@@ -1,17 +1,22 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+/* Force light theme */
+[data-theme="light"] {
+  color-scheme: light;
+}
+
 :root {
-  --color-bg: #f5f9ff;
+  --color-bg: #ffffff;
   --color-surface: #ffffff;
   --color-accent: #2563eb;
-  --color-text: #1e3a8a;
+  --color-text: #1f2937;
   --color-muted: #64748b;
 }
 
 body {
-  background: var(--color-bg);
-  color: var(--color-text);
+  background: #ffffff;
+  color: #1f2937;
   font-family: system-ui, sans-serif;
 }
 
