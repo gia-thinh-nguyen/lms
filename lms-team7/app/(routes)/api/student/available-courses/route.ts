@@ -3,6 +3,12 @@ import { currentUser } from '@clerk/nextjs/server'
 import connectMongoDB from '@/db/connectMongoDB'
 import Course from '@/models/course'
 import User from '@/models/user'
+import Lesson from '@/models/lessons'
+
+// Ensure models are registered
+Course;
+User;
+Lesson;
 
 export async function GET() {
   try {

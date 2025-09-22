@@ -3,8 +3,9 @@ import connectMongoDB from '../../../../../db/connectMongoDB';
 import User from '../../../../../models/user';
 import Course from '../../../../../models/course';
 
-// Ensure User model is registered
+// Ensure models are registered
 User;
+Course;
 
 export async function GET(
   request: NextRequest,
