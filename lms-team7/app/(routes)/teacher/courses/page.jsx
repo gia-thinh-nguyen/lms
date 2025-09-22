@@ -12,8 +12,8 @@ const page = () => {
     return (
       <div className="container mx-auto p-6">
         <div className="flex justify-center items-center py-12">
-          <div className="loading loading-spinner loading-lg"></div>
-          <span className="ml-4 text-lg">Loading your courses...</span>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <span className="ml-4 text-lg text-gray-700">Loading your courses...</span>
         </div>
       </div>
     );
@@ -22,15 +22,18 @@ const page = () => {
   if (error) {
     return (
       <div className="container mx-auto p-6">
-        <div className="alert alert-error max-w-2xl mx-auto">
-          <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 max-w-2xl mx-auto flex items-center gap-4">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-red-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <div>
-            <h3 className="font-bold">Error loading courses</h3>
-            <div className="text-xs">{error}</div>
+          <div className="flex-1">
+            <h3 className="font-bold text-red-800">Error loading courses</h3>
+            <div className="text-sm text-red-700">{error}</div>
           </div>
-          <button className="btn btn-sm" onClick={refetchCourses}>
+          <button 
+            className="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-md text-sm font-medium transition-colors" 
+            onClick={refetchCourses}
+          >
             Retry
           </button>
         </div>
@@ -42,12 +45,12 @@ const page = () => {
     <div className="container mx-auto p-6">
       <div className="mb-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-primary mb-2">My Courses</h1>
+          <h1 className="text-3xl font-bold text-blue-600 mb-2">My Courses</h1>
           <p className="text-gray-600">Manage and view all your assigned courses ({courses.length} course{courses.length !== 1 ? 's' : ''})</p>
         </div>
         <div className="flex gap-2">
           <button 
-            className="btn btn-ghost" 
+            className="border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-md font-medium transition-colors flex items-center disabled:opacity-50" 
             onClick={refetchCourses}
             disabled={loading}
           >
@@ -56,7 +59,7 @@ const page = () => {
             </svg>
             Refresh
           </button>
-          <Link href="/teacher/courses/create" className="btn btn-primary">
+          <Link href="/teacher/courses/create" className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
@@ -88,7 +91,7 @@ const page = () => {
           </div>
           <div className="text-gray-500 text-lg mb-2">No courses yet</div>
           <p className="text-gray-400 mb-4">You haven't created any courses yet. Get started by creating your first course.</p>
-          <Link href="/teacher/courses/create" className="btn btn-primary">
+          <Link href="/teacher/courses/create" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-medium transition-colors">
             Create Your First Course
           </Link>
         </div>
